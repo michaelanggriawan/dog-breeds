@@ -7,6 +7,7 @@ import { LoggerModule } from 'nestjs-pino';
 import { FirestoreModule } from 'firebase/firestore.module';
 import { FirestoreCollectionProviders } from 'firestore-document/collection.providers';
 import { FirestoreDatabaseProvider } from 'firebase/firestore.provider';
+import { UserModule } from './users/user.module';
 
 const collectionProviders = FirestoreCollectionProviders.map(
   (providerName) => ({
@@ -18,6 +19,7 @@ const collectionProviders = FirestoreCollectionProviders.map(
 
 @Module({
   imports: [
+    UserModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration],

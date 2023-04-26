@@ -1,4 +1,4 @@
-import { Module, DynamicModule } from '@nestjs/common';
+import { Module, DynamicModule, Global } from '@nestjs/common';
 import { Firestore, Settings } from '@google-cloud/firestore';
 import {
   FirestoreDatabaseProvider,
@@ -11,6 +11,7 @@ type FirestoreModuleOptions = {
   inject: any[];
 };
 
+@Global()
 @Module({})
 export class FirestoreModule {
   static forRoot(
