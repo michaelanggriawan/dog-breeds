@@ -66,6 +66,19 @@ let AppService = AppService_1 = class AppService {
             throw err;
         }
     }
+    async deleteBreed({ userId, breed }) {
+        const docRef = this.breedsCollection.doc(userId);
+        let result = (await docRef.get()).data();
+        if (!result.selectedBreeds.includes(breed)) {
+            throw new common_1.NotFoundException(`${breed} doesn't exist`);
+        }
+        const selectedBreeds = result.selectedBreeds.filter((s) => s !== breed);
+        await docRef.set({
+            selectedBreeds: selectedBreeds,
+        });
+        result = (await docRef.get()).data();
+        return result;
+    }
 };
 AppService = AppService_1 = __decorate([
     (0, common_1.Injectable)(),

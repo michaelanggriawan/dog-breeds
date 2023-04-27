@@ -14,4 +14,8 @@ export declare class AppService {
         userId: string;
         selectedBreeds: Array<string>;
     }): Promise<BreedsDocument>;
+    deleteBreed({ userId, breed }: {
+        userId: string;
+        breed: string;
+    }): Promise<BreedsDocument>;
 }

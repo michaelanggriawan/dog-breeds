@@ -16,13 +16,11 @@ exports.UserController = void 0;
 const common_1 = require("@nestjs/common");
 const serialize_interceptor_1 = require("../../interceptors/serialize.interceptor");
 const user_dto_1 = require("./dtos/user.dto");
-const user_service_1 = require("./user.service");
 const auth_service_1 = require("./auth.service");
 const create_user_dto_1 = require("./dtos/create-user.dto");
 const sign_user_dto_1 = require("./dtos/sign-user.dto");
 let UserController = class UserController {
-    constructor(usersService, authService) {
-        this.usersService = usersService;
+    constructor(authService) {
         this.authService = authService;
     }
     async signin(body) {
@@ -55,8 +53,7 @@ UserController = __decorate([
         version: '1',
     }),
     (0, serialize_interceptor_1.Serialize)(user_dto_1.UserDto),
-    __metadata("design:paramtypes", [user_service_1.UsersService,
-        auth_service_1.AuthService])
+    __metadata("design:paramtypes", [auth_service_1.AuthService])
 ], UserController);
 exports.UserController = UserController;
 //# sourceMappingURL=user.controller.js.map

@@ -1,5 +1,6 @@
 import { AppService } from './app.service';
 import { SaveBreedsDto } from './users/dtos/save-breeds.dto';
+import { DeleteBreedsDto } from './users/dtos/delete-breeds.dto';
 export declare class AppController {
     private readonly appService;
     constructor(appService: AppService);
@@ -7,4 +8,7 @@ export declare class AppController {
     saveBreeds(headers: {
         'x-user-id': string;
     }, body: SaveBreedsDto): Promise<import("../firestore-document/breeds.document").BreedsDocument>;
+    deleteBreeds(headers: {
+        'x-user-id': string;
+    }, body: DeleteBreedsDto): Promise<import("../firestore-document/breeds.document").BreedsDocument>;
 }

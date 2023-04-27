@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const app_service_1 = require("./app.service");
 const jwt_auth_guard_1 = require("../guards/jwt-auth.guard");
 const save_breeds_dto_1 = require("./users/dtos/save-breeds.dto");
+const delete_breeds_dto_1 = require("./users/dtos/delete-breeds.dto");
 let AppController = class AppController {
     constructor(appService) {
         this.appService = appService;
@@ -27,6 +28,12 @@ let AppController = class AppController {
     saveBreeds(headers, body) {
         return this.appService.saveBreeds({
             selectedBreeds: body.selectedBreeds,
+            userId: headers['x-user-id'],
+        });
+    }
+    deleteBreeds(headers, body) {
+        return this.appService.deleteBreed({
+            breed: body.breed,
             userId: headers['x-user-id'],
         });
     }
@@ -47,6 +54,15 @@ __decorate([
     __metadata("design:paramtypes", [Object, save_breeds_dto_1.SaveBreedsDto]),
     __metadata("design:returntype", void 0)
 ], AppController.prototype, "saveBreeds", null);
+__decorate([
+    (0, common_1.Delete)('/save/breed'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, (0, common_1.Headers)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, delete_breeds_dto_1.DeleteBreedsDto]),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "deleteBreeds", null);
 AppController = __decorate([
     (0, common_1.Controller)({
         path: 'breeds',

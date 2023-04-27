@@ -3,6 +3,7 @@ import {
   HttpException,
   Inject,
   Injectable,
+  NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
@@ -82,5 +83,24 @@ export class AppService {
       this.logger.error(err);
       throw err;
     }
+  }
+
+  async deleteBreed({ userId, breed }: { userId: string; breed: string }) {
+    const docRef = this.breedsCollection.doc(userId);
+    let result = (await docRef.get()).data();
+
+    if (!result.selectedBreeds.includes(breed)) {
+      throw new NotFoundException(`${breed} doesn't exist`);
+    }
+
+    const selectedBreeds = result.selectedBreeds.filter((s) => s !== breed);
+
+    await docRef.set({
+      selectedBreeds: selectedBreeds,
+    });
+
+    result = (await docRef.get()).data();
+
+    return result;
   }
 }

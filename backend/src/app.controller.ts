@@ -3,12 +3,14 @@ import {
   Controller,
   Get,
   Post,
+  Delete,
   UseGuards,
   Headers,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { JwtAuthGuard } from 'guards/jwt-auth.guard';
 import { SaveBreedsDto } from './users/dtos/save-breeds.dto';
+import { DeleteBreedsDto } from './users/dtos/delete-breeds.dto';
 
 @Controller({
   path: 'breeds',
@@ -31,6 +33,18 @@ export class AppController {
   ) {
     return this.appService.saveBreeds({
       selectedBreeds: body.selectedBreeds,
+      userId: headers['x-user-id'],
+    });
+  }
+
+  @Delete('/save/breed')
+  @UseGuards(JwtAuthGuard)
+  deleteBreeds(
+    @Headers() headers: { 'x-user-id': string },
+    @Body() body: DeleteBreedsDto,
+  ) {
+    return this.appService.deleteBreed({
+      breed: body.breed,
       userId: headers['x-user-id'],
     });
   }

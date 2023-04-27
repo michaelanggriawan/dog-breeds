@@ -1,7 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { Serialize } from 'interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
-import { UsersService } from './user.service';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { SignInUserDto } from './dtos/sign-user.dto';
@@ -12,10 +11,7 @@ import { SignInUserDto } from './dtos/sign-user.dto';
 })
 @Serialize(UserDto)
 export class UserController {
-  constructor(
-    private usersService: UsersService,
-    private authService: AuthService,
-  ) {}
+  constructor(private authService: AuthService) {}
 
   @Post('/signin')
   async signin(@Body() body: SignInUserDto) {
