@@ -12,7 +12,7 @@ export class JwtAuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     let payload;
     const request = this.getAuthentication(context);
-    const accessToken = request.headers?.authorization;
+    const accessToken = request.headers?.authorization.split(' ')[1];
     const userId = request.headers['x-user-id'] || '';
 
     if (!accessToken) {

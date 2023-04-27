@@ -17,6 +17,7 @@ const firestore_module_1 = require("../firebase/firestore.module");
 const collection_providers_1 = require("../firestore-document/collection.providers");
 const firestore_provider_1 = require("../firebase/firestore.provider");
 const user_module_1 = require("./users/user.module");
+const axios_1 = require("@nestjs/axios");
 const collectionProviders = collection_providers_1.FirestoreCollectionProviders.map((providerName) => ({
     provide: providerName,
     useFactory: (db) => db.collection(providerName),
@@ -27,6 +28,9 @@ let AppModule = class AppModule {
 AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            axios_1.HttpModule.register({
+                timeout: 300000,
+            }),
             user_module_1.UserModule,
             config_1.ConfigModule.forRoot({
                 isGlobal: true,

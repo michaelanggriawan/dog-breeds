@@ -8,6 +8,7 @@ import { FirestoreModule } from 'firebase/firestore.module';
 import { FirestoreCollectionProviders } from 'firestore-document/collection.providers';
 import { FirestoreDatabaseProvider } from 'firebase/firestore.provider';
 import { UserModule } from './users/user.module';
+import { HttpModule } from '@nestjs/axios';
 
 const collectionProviders = FirestoreCollectionProviders.map(
   (providerName) => ({
@@ -19,6 +20,9 @@ const collectionProviders = FirestoreCollectionProviders.map(
 
 @Module({
   imports: [
+    HttpModule.register({
+      timeout: 300000,
+    }),
     UserModule,
     ConfigModule.forRoot({
       isGlobal: true,
