@@ -28,9 +28,9 @@ export class AuthService {
   }) {
     try {
       // See if email is in use
-      const user = await this.usersService.find(email);
+      const user = await this.usersService.find({ email, username });
       if (user) {
-        throw new BadRequestException('email in use');
+        throw new BadRequestException('email or username in use');
       }
 
       // Hash the users password
@@ -53,12 +53,13 @@ export class AuthService {
       return response;
     } catch (error) {
       this.logger.error(error);
+      throw error;
     }
   }
 
   async signin(email: string, password: string) {
     try {
-      const user = await this.usersService.find(email);
+      const user = await this.usersService.find({ email });
       if (!user) {
         throw new NotFoundException('user not found');
       }
@@ -68,12 +69,13 @@ export class AuthService {
       const hash = (await scrypt(password, salt, 32)) as Buffer;
 
       if (storedHash !== hash.toString('hex')) {
-        throw new BadRequestException('bad password');
+        throw new BadRequestException('invalid password');
       }
       this.logger.info(`${email} - sign in`);
       return user;
     } catch (error) {
       this.logger.error(error);
+      throw error;
     }
   }
 }
