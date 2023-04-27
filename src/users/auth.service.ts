@@ -7,6 +7,8 @@ import { UsersService } from './user.service';
 import { randomBytes, scrypt as _scrypt } from 'crypto';
 import { promisify } from 'util';
 import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
+import * as jose from 'jose';
+import * as keys from 'credentials/credentials.json';
 
 const scrypt = promisify(_scrypt);
 
