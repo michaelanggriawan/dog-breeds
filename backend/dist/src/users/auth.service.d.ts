@@ -9,6 +9,8 @@ export declare class AuthService {
         username: string;
         password: string;
     }): Promise<{
+        token: string;
+        expToken: number;
         userId: string;
         username: string;
         email: string;
@@ -16,9 +18,12 @@ export declare class AuthService {
         createAt: FirebaseFirestore.Timestamp;
     }>;
     signin(email: string, password: string): Promise<{
+        token: string;
+        expToken: number;
         userId: string;
         username: string;
         password: string;
         email: string;
     }>;
+    private createToken;
 }

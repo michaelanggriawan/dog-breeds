@@ -9,4 +9,10 @@ export class UserDto {
 
   @Expose()
   userId: string;
+
+  @Expose()
+  token: string;
+
+  @Expose()
+  expToken: number;
 }

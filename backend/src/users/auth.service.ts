@@ -52,7 +52,8 @@ export class AuthService {
         password: result,
       });
       this.logger.info(`${email} - sign up`);
-      return response;
+      const token = await this.createToken({ email, userId: response.userId });
+      return { ...response, ...token };
     } catch (error) {
       this.logger.error(error);
       throw error;
@@ -73,13 +74,48 @@ export class AuthService {
       if (storedHash !== hash.toString('hex')) {
         throw new BadRequestException('invalid password');
       }
+
+      const token = await this.createToken({ email, userId: user.userId });
+
       this.logger.info(`${email} - sign in`);
-      return user;
+
+      return { ...user, ...token };
     } catch (error) {
       this.logger.error(error);
       throw error;
     }
   }
 
-  private async createToken() {}
+  private async createToken({
+    userId,
+    email,
+  }: {
+    userId: string;
+    email: string;
+  }) {
+    const algorithm = 'RS256';
+    const pkcs8 = keys.private_key;
+    const ecPrivateKey = await jose.importPKCS8(pkcs8, algorithm);
+    const jwt = await new jose.SignJWT({
+      userId,
+      email,
+    })
+      .setProtectedHeader({
+        alg: algorithm,
+        typ: 'JWT',
+        kid: keys.private_key_id,
+      })
+      .setIssuer(keys.client_email)
+      .setSubject(keys.client_email)
+      .setIssuedAt()
+      .setExpirationTime('1d')
+      .sign(ecPrivateKey);
+
+    const response = jose.decodeJwt(jwt);
+
+    return {
+      token: jwt,
+      expToken: response.exp,
+    };
+  }
 }

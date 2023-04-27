@@ -19,6 +19,8 @@ const user_service_1 = require("./user.service");
 const crypto_1 = require("crypto");
 const util_1 = require("util");
 const nestjs_pino_1 = require("nestjs-pino");
+const jose = require("jose");
+const keys = require("../../credentials/credentials.json");
 const scrypt = (0, util_1.promisify)(crypto_1.scrypt);
 let AuthService = AuthService_1 = class AuthService {
     constructor(usersService, logger) {
@@ -40,7 +42,8 @@ let AuthService = AuthService_1 = class AuthService {
                 password: result,
             });
             this.logger.info(`${email} - sign up`);
-            return response;
+            const token = await this.createToken({ email, userId: response.userId });
+            return Object.assign(Object.assign({}, response), token);
         }
         catch (error) {
             this.logger.error(error);
@@ -58,13 +61,38 @@ let AuthService = AuthService_1 = class AuthService {
             if (storedHash !== hash.toString('hex')) {
                 throw new common_1.BadRequestException('invalid password');
             }
+            const token = await this.createToken({ email, userId: user.userId });
             this.logger.info(`${email} - sign in`);
-            return user;
+            return Object.assign(Object.assign({}, user), token);
         }
         catch (error) {
             this.logger.error(error);
             throw error;
         }
+    }
+    async createToken({ userId, email, }) {
+        const algorithm = 'RS256';
+        const pkcs8 = keys.private_key;
+        const ecPrivateKey = await jose.importPKCS8(pkcs8, algorithm);
+        const jwt = await new jose.SignJWT({
+            userId,
+            email,
+        })
+            .setProtectedHeader({
+            alg: algorithm,
+            typ: 'JWT',
+            kid: keys.private_key_id,
+        })
+            .setIssuer(keys.client_email)
+            .setSubject(keys.client_email)
+            .setIssuedAt()
+            .setExpirationTime('1d')
+            .sign(ecPrivateKey);
+        const response = jose.decodeJwt(jwt);
+        return {
+            token: jwt,
+            expToken: response.exp,
+        };
     }
 };
 AuthService = AuthService_1 = __decorate([
