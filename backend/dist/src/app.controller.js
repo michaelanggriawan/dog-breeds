@@ -37,6 +37,11 @@ let AppController = class AppController {
             userId: headers['x-user-id'],
         });
     }
+    getBreedImages(headers) {
+        return this.appService.getRandomBreedImages({
+            userId: headers['x-user-id'],
+        });
+    }
 };
 __decorate([
     (0, common_1.Get)(),
@@ -63,6 +68,14 @@ __decorate([
     __metadata("design:paramtypes", [Object, delete_breeds_dto_1.DeleteBreedsDto]),
     __metadata("design:returntype", void 0)
 ], AppController.prototype, "deleteBreeds", null);
+__decorate([
+    (0, common_1.Get)('/images'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, (0, common_1.Headers)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "getBreedImages", null);
 AppController = __decorate([
     (0, common_1.Controller)({
         path: 'breeds',

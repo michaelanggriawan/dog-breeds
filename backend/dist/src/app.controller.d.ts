@@ -11,4 +11,10 @@ export declare class AppController {
     deleteBreeds(headers: {
         'x-user-id': string;
     }, body: DeleteBreedsDto): Promise<import("../firestore-document/breeds.document").BreedsDocument>;
+    getBreedImages(headers: {
+        'x-user-id': string;
+    }): Promise<{
+        images: string[];
+        breed: string;
+    }[]>;
 }

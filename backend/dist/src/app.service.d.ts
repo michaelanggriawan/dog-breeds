@@ -18,4 +18,10 @@ export declare class AppService {
         userId: string;
         breed: string;
     }): Promise<BreedsDocument>;
+    getRandomBreedImages({ userId }: {
+        userId: string;
+    }): Promise<{
+        images: Array<string>;
+        breed: string;
+    }[]>;
 }

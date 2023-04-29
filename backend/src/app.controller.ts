@@ -48,4 +48,12 @@ export class AppController {
       userId: headers['x-user-id'],
     });
   }
+
+  @Get('/images')
+  @UseGuards(JwtAuthGuard)
+  getBreedImages(@Headers() headers: { 'x-user-id': string }) {
+    return this.appService.getRandomBreedImages({
+      userId: headers['x-user-id'],
+    });
+  }
 }

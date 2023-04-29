@@ -25,7 +25,6 @@ export class AppService {
   ) {}
 
   async getBreeds() {
-    console.log('Get Breeds');
     const response = await lastValueFrom(
       this.httpService
         .get(`${this.configService.get<string>('DOG_CEO_URL')}breeds/list/all`)
@@ -102,5 +101,38 @@ export class AppService {
     result = (await docRef.get()).data();
 
     return result;
+  }
+
+  async getRandomBreedImages({ userId }: { userId: string }) {
+    const docRef = this.breedsCollection.doc(userId);
+    const result = (await docRef.get()).data();
+    const images: Array<{ images: Array<string>; breed: string }> = [];
+
+    if (result.selectedBreeds.length < 0)
+      throw new NotFoundException("You don't have selected breeds");
+
+    const totalImage = 3;
+    for (const breed of result.selectedBreeds) {
+      const response = await lastValueFrom(
+        this.httpService
+          .get(
+            `${this.configService.get<string>(
+              'DOG_CEO_URL',
+            )}breed/${breed}/images/random/${totalImage}`,
+          )
+          .pipe(
+            map((response) => response.data),
+            catchError((err) => {
+              this.logger.error(err);
+              throw new HttpException(err.response.data, err.response.status);
+            }),
+          ),
+      );
+      images.push({
+        images: response.message,
+        breed,
+      });
+    }
+    return images;
   }
 }

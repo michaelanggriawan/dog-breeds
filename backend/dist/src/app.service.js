@@ -29,7 +29,6 @@ let AppService = AppService_1 = class AppService {
         this.breedsCollection = breedsCollection;
     }
     async getBreeds() {
-        console.log('Get Breeds');
         const response = await (0, rxjs_1.lastValueFrom)(this.httpService
             .get(`${this.configService.get('DOG_CEO_URL')}breeds/list/all`)
             .pipe((0, rxjs_1.map)((response) => response.data), (0, rxjs_1.catchError)((err) => {
@@ -78,6 +77,27 @@ let AppService = AppService_1 = class AppService {
         });
         result = (await docRef.get()).data();
         return result;
+    }
+    async getRandomBreedImages({ userId }) {
+        const docRef = this.breedsCollection.doc(userId);
+        const result = (await docRef.get()).data();
+        const images = [];
+        if (result.selectedBreeds.length < 0)
+            throw new common_1.NotFoundException("You don't have selected breeds");
+        const totalImage = 3;
+        for (const breed of result.selectedBreeds) {
+            const response = await (0, rxjs_1.lastValueFrom)(this.httpService
+                .get(`${this.configService.get('DOG_CEO_URL')}breed/${breed}/images/random/${totalImage}`)
+                .pipe((0, rxjs_1.map)((response) => response.data), (0, rxjs_1.catchError)((err) => {
+                this.logger.error(err);
+                throw new common_1.HttpException(err.response.data, err.response.status);
+            })));
+            images.push({
+                images: response.message,
+                breed,
+            });
+        }
+        return images;
     }
 };
 AppService = AppService_1 = __decorate([
