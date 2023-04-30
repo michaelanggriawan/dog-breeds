@@ -17,7 +17,7 @@ async function bootstrap() {
   app.useLogger(app.get(PinoLogger));
   app.useGlobalFilters(new AllExceptionFilter(app.get(PinoLogger)));
   app.useGlobalInterceptors(new HttpSuccessInterceptor());
-
+  app.enableCors();
   const config = new DocumentBuilder()
     .setTitle('Dog Breeds API')
     .setDescription('All dog breeds APIs doc')
