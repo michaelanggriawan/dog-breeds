@@ -18,6 +18,7 @@ async function bootstrap() {
     app.useLogger(app.get(nestjs_pino_1.Logger));
     app.useGlobalFilters(new http_exception_filter_interceptor_1.AllExceptionFilter(app.get(nestjs_pino_1.Logger)));
     app.useGlobalInterceptors(new http_success_interceptor_1.HttpSuccessInterceptor());
+    app.enableCors();
     const config = new swagger_1.DocumentBuilder()
         .setTitle('Dog Breeds API')
         .setDescription('All dog breeds APIs doc')
