@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BadRequestResponse = exports.NotFoundResponse = exports.InternalServerErrorResponse = exports.UnauthorizedResponse = exports.UnprocessableEntityResponse = exports.UserError = exports.GetSelectedBreedResponse = exports.SelectedBreedsImage = exports.BreedsResponse = exports.SaveSelectedBreedsResponse = exports.UserSignInResponse = exports.SelectedBreeds = exports.SelectedBreedsArray = exports.UsersSignIn = void 0;
+exports.BadRequestResponse = exports.NotFoundResponse = exports.InternalServerErrorResponse = exports.UnauthorizedResponse = exports.UnprocessableEntityResponse = exports.UserError = exports.GetSelectedBreedResponse = exports.SelectedBreedsImage = exports.BreedsResponse = exports.GetSaveSelectedBreedsResponse = exports.SaveSelectedBreedsResponse = exports.UserSignInResponse = exports.SelectedBreeds = exports.SelectedBreedsArray = exports.UsersSignIn = void 0;
 const swagger_1 = require("@nestjs/swagger");
 class UsersSignIn {
 }
@@ -93,6 +93,21 @@ __decorate([
     __metadata("design:type", Object)
 ], SaveSelectedBreedsResponse.prototype, "data", void 0);
 exports.SaveSelectedBreedsResponse = SaveSelectedBreedsResponse;
+class GetSaveSelectedBreedsResponse {
+}
+__decorate([
+    (0, swagger_1.ApiProperty)({ example: '200' }),
+    __metadata("design:type", Number)
+], GetSaveSelectedBreedsResponse.prototype, "statusCode", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ example: true }),
+    __metadata("design:type", Boolean)
+], GetSaveSelectedBreedsResponse.prototype, "success", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ type: SelectedBreeds }),
+    __metadata("design:type", Object)
+], GetSaveSelectedBreedsResponse.prototype, "data", void 0);
+exports.GetSaveSelectedBreedsResponse = GetSaveSelectedBreedsResponse;
 class BreedsResponse {
 }
 __decorate([

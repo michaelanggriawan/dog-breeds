@@ -23,6 +23,7 @@ import {
 import {
   BadRequestResponse,
   BreedsResponse,
+  GetSaveSelectedBreedsResponse,
   GetSelectedBreedResponse,
   InternalServerErrorResponse,
   SaveSelectedBreedsResponse,
@@ -71,16 +72,18 @@ export class AppController {
   @ApiUnauthorizedResponse({ type: UnauthorizedResponse })
   @ApiBadRequestResponse({ type: BadRequestResponse })
   @Get('/save')
-  @ApiCreatedResponse({ type: SaveSelectedBreedsResponse })
+  @ApiCreatedResponse({ type: GetSaveSelectedBreedsResponse })
   @ApiHeaders([{ name: 'X-User-Id' }])
   @UseGuards(JwtAuthGuard)
-  getSaveBreeds(@Headers() headers: { 'x-user-id': string }) {}
+  getSaveBreeds(@Headers() headers: { 'x-user-id': string }) {
+    return this.appService.getSaveBreeds({ userId: headers['x-user-id'] });
+  }
 
   @ApiInternalServerErrorResponse({ type: InternalServerErrorResponse })
   @ApiBearerAuth()
   @ApiUnauthorizedResponse({ type: UnauthorizedResponse })
   @ApiBadRequestResponse({ type: BadRequestResponse })
-  @Delete('/save/breed')
+  @Delete('/save')
   @ApiHeaders([{ name: 'X-User-Id' }])
   @UseGuards(JwtAuthGuard)
   @ApiCreatedResponse({ type: SaveSelectedBreedsResponse })

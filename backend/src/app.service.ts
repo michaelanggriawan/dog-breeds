@@ -108,7 +108,17 @@ export class AppService {
     }
   }
 
-  async getSaveBreeds({ userId }: { userId: string }) {}
+  async getSaveBreeds({ userId }: { userId: string }) {
+    try {
+      const docRef = this.breedsCollection.doc(userId);
+
+      const result = (await docRef.get()).data();
+
+      return result;
+    } catch (err) {
+      this.logger.error(err);
+    }
+  }
 
   async deleteBreed({ userId, breed }: { userId: string; breed: string }) {
     const docRef = this.breedsCollection.doc(userId);

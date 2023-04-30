@@ -64,6 +64,17 @@ export class SaveSelectedBreedsResponse {
   data: Record<string, string>;
 }
 
+export class GetSaveSelectedBreedsResponse {
+  @ApiProperty({ example: '200' })
+  statusCode: number;
+
+  @ApiProperty({ example: true })
+  success: boolean;
+
+  @ApiProperty({ type: SelectedBreeds })
+  data: Record<string, string>;
+}
+
 export class BreedsResponse {
   @ApiProperty({ example: '200' })
   statusCode: number;

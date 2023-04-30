@@ -33,7 +33,9 @@ let AppController = class AppController {
             userId: headers['x-user-id'],
         });
     }
-    getSaveBreeds(headers) { }
+    getSaveBreeds(headers) {
+        return this.appService.getSaveBreeds({ userId: headers['x-user-id'] });
+    }
     deleteBreeds(headers, body) {
         return this.appService.deleteBreed({
             breed: body.breed,
@@ -80,7 +82,7 @@ __decorate([
     (0, swagger_1.ApiUnauthorizedResponse)({ type: swagger_response_1.UnauthorizedResponse }),
     (0, swagger_1.ApiBadRequestResponse)({ type: swagger_response_1.BadRequestResponse }),
     (0, common_1.Get)('/save'),
-    (0, swagger_1.ApiCreatedResponse)({ type: swagger_response_1.SaveSelectedBreedsResponse }),
+    (0, swagger_1.ApiCreatedResponse)({ type: swagger_response_1.GetSaveSelectedBreedsResponse }),
     (0, swagger_1.ApiHeaders)([{ name: 'X-User-Id' }]),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, common_1.Headers)()),
@@ -93,7 +95,7 @@ __decorate([
     (0, swagger_1.ApiBearerAuth)(),
     (0, swagger_1.ApiUnauthorizedResponse)({ type: swagger_response_1.UnauthorizedResponse }),
     (0, swagger_1.ApiBadRequestResponse)({ type: swagger_response_1.BadRequestResponse }),
-    (0, common_1.Delete)('/save/breed'),
+    (0, common_1.Delete)('/save'),
     (0, swagger_1.ApiHeaders)([{ name: 'X-User-Id' }]),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, swagger_1.ApiCreatedResponse)({ type: swagger_response_1.SaveSelectedBreedsResponse }),

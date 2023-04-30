@@ -10,7 +10,7 @@ export declare class AppController {
     }, body: SaveBreedsDto): Promise<import("../firestore-document/breeds.document").BreedsDocument>;
     getSaveBreeds(headers: {
         'x-user-id': string;
-    }): void;
+    }): Promise<import("../firestore-document/breeds.document").BreedsDocument>;
     deleteBreeds(headers: {
         'x-user-id': string;
     }, body: DeleteBreedsDto): Promise<import("../firestore-document/breeds.document").BreedsDocument>;

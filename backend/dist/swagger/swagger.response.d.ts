@@ -25,6 +25,11 @@ export declare class SaveSelectedBreedsResponse {
     success: boolean;
     data: Record<string, string>;
 }
+export declare class GetSaveSelectedBreedsResponse {
+    statusCode: number;
+    success: boolean;
+    data: Record<string, string>;
+}
 export declare class BreedsResponse {
     statusCode: number;
     success: boolean;
