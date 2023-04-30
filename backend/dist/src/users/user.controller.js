@@ -19,6 +19,8 @@ const user_dto_1 = require("./dtos/user.dto");
 const auth_service_1 = require("./auth.service");
 const create_user_dto_1 = require("./dtos/create-user.dto");
 const sign_user_dto_1 = require("./dtos/sign-user.dto");
+const swagger_1 = require("@nestjs/swagger");
+const swagger_response_1 = require("../../swagger/swagger.response");
 let UserController = class UserController {
     constructor(authService) {
         this.authService = authService;
@@ -34,6 +36,10 @@ let UserController = class UserController {
     }
 };
 __decorate([
+    (0, swagger_1.ApiInternalServerErrorResponse)({ type: swagger_response_1.InternalServerErrorResponse }),
+    (0, swagger_1.ApiUnauthorizedResponse)({ type: swagger_response_1.UnauthorizedResponse }),
+    (0, swagger_1.ApiBadRequestResponse)({ type: swagger_response_1.BadRequestResponse }),
+    (0, swagger_1.ApiOkResponse)({ type: swagger_response_1.UserSignInResponse }),
     (0, common_1.Post)('/signin'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -41,6 +47,10 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "signin", null);
 __decorate([
+    (0, swagger_1.ApiInternalServerErrorResponse)({ type: swagger_response_1.InternalServerErrorResponse }),
+    (0, swagger_1.ApiUnauthorizedResponse)({ type: swagger_response_1.UnauthorizedResponse }),
+    (0, swagger_1.ApiBadRequestResponse)({ type: swagger_response_1.BadRequestResponse }),
+    (0, swagger_1.ApiOkResponse)({ type: swagger_response_1.UserSignInResponse }),
     (0, common_1.Post)('/signup'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),

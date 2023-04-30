@@ -10,11 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SaveBreedsDto = void 0;
+const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 class SaveBreedsDto {
 }
 __decorate([
     (0, class_validator_1.IsArray)(),
+    (0, swagger_1.ApiProperty)({ example: ['beagle', 'boxer'] }),
     __metadata("design:type", Array)
 ], SaveBreedsDto.prototype, "selectedBreeds", void 0);
 exports.SaveBreedsDto = SaveBreedsDto;

@@ -8,6 +8,9 @@ export declare class AppController {
     saveBreeds(headers: {
         'x-user-id': string;
     }, body: SaveBreedsDto): Promise<import("../firestore-document/breeds.document").BreedsDocument>;
+    getSaveBreeds(headers: {
+        'x-user-id': string;
+    }): void;
     deleteBreeds(headers: {
         'x-user-id': string;
     }, body: DeleteBreedsDto): Promise<import("../firestore-document/breeds.document").BreedsDocument>;

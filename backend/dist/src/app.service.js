@@ -78,6 +78,7 @@ let AppService = AppService_1 = class AppService {
             throw err;
         }
     }
+    async getSaveBreeds({ userId }) { }
     async deleteBreed({ userId, breed }) {
         const docRef = this.breedsCollection.doc(userId);
         let result = (await docRef.get()).data();

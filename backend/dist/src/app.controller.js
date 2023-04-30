@@ -18,6 +18,8 @@ const app_service_1 = require("./app.service");
 const jwt_auth_guard_1 = require("../guards/jwt-auth.guard");
 const save_breeds_dto_1 = require("./users/dtos/save-breeds.dto");
 const delete_breeds_dto_1 = require("./users/dtos/delete-breeds.dto");
+const swagger_1 = require("@nestjs/swagger");
+const swagger_response_1 = require("../swagger/swagger.response");
 let AppController = class AppController {
     constructor(appService) {
         this.appService = appService;
@@ -31,6 +33,7 @@ let AppController = class AppController {
             userId: headers['x-user-id'],
         });
     }
+    getSaveBreeds(headers) { }
     deleteBreeds(headers, body) {
         return this.appService.deleteBreed({
             breed: body.breed,
@@ -44,6 +47,12 @@ let AppController = class AppController {
     }
 };
 __decorate([
+    (0, swagger_1.ApiInternalServerErrorResponse)({ type: swagger_response_1.InternalServerErrorResponse }),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, swagger_1.ApiUnauthorizedResponse)({ type: swagger_response_1.UnauthorizedResponse }),
+    (0, swagger_1.ApiBadRequestResponse)({ type: swagger_response_1.BadRequestResponse }),
+    (0, swagger_1.ApiHeaders)([{ name: 'X-User-Id' }]),
+    (0, swagger_1.ApiOkResponse)({ type: swagger_response_1.BreedsResponse }),
     (0, common_1.Get)(),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __metadata("design:type", Function),
@@ -51,7 +60,13 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AppController.prototype, "getBreeds", null);
 __decorate([
+    (0, swagger_1.ApiInternalServerErrorResponse)({ type: swagger_response_1.InternalServerErrorResponse }),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, swagger_1.ApiUnauthorizedResponse)({ type: swagger_response_1.UnauthorizedResponse }),
+    (0, swagger_1.ApiBadRequestResponse)({ type: swagger_response_1.BadRequestResponse }),
     (0, common_1.Post)('/save'),
+    (0, swagger_1.ApiCreatedResponse)({ type: swagger_response_1.SaveSelectedBreedsResponse }),
+    (0, swagger_1.ApiHeaders)([{ name: 'X-User-Id' }]),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, common_1.Headers)()),
     __param(1, (0, common_1.Body)()),
@@ -60,8 +75,28 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AppController.prototype, "saveBreeds", null);
 __decorate([
-    (0, common_1.Delete)('/save/breed'),
+    (0, swagger_1.ApiInternalServerErrorResponse)({ type: swagger_response_1.InternalServerErrorResponse }),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, swagger_1.ApiUnauthorizedResponse)({ type: swagger_response_1.UnauthorizedResponse }),
+    (0, swagger_1.ApiBadRequestResponse)({ type: swagger_response_1.BadRequestResponse }),
+    (0, common_1.Get)('/save'),
+    (0, swagger_1.ApiCreatedResponse)({ type: swagger_response_1.SaveSelectedBreedsResponse }),
+    (0, swagger_1.ApiHeaders)([{ name: 'X-User-Id' }]),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, (0, common_1.Headers)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "getSaveBreeds", null);
+__decorate([
+    (0, swagger_1.ApiInternalServerErrorResponse)({ type: swagger_response_1.InternalServerErrorResponse }),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, swagger_1.ApiUnauthorizedResponse)({ type: swagger_response_1.UnauthorizedResponse }),
+    (0, swagger_1.ApiBadRequestResponse)({ type: swagger_response_1.BadRequestResponse }),
+    (0, common_1.Delete)('/save/breed'),
+    (0, swagger_1.ApiHeaders)([{ name: 'X-User-Id' }]),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, swagger_1.ApiCreatedResponse)({ type: swagger_response_1.SaveSelectedBreedsResponse }),
     __param(0, (0, common_1.Headers)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -69,8 +104,13 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AppController.prototype, "deleteBreeds", null);
 __decorate([
+    (0, swagger_1.ApiInternalServerErrorResponse)({ type: swagger_response_1.InternalServerErrorResponse }),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, swagger_1.ApiUnauthorizedResponse)({ type: swagger_response_1.UnauthorizedResponse }),
+    (0, swagger_1.ApiBadRequestResponse)({ type: swagger_response_1.BadRequestResponse }),
     (0, common_1.Get)('/images'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, swagger_1.ApiOkResponse)({ type: swagger_response_1.GetSelectedBreedResponse }),
     __param(0, (0, common_1.Headers)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),

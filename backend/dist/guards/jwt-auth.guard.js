@@ -12,11 +12,11 @@ const common_2 = require("@nestjs/common");
 const jose = require("jose");
 let JwtAuthGuard = class JwtAuthGuard {
     async canActivate(context) {
-        var _a;
+        var _a, _b, _c;
         let payload;
         const request = this.getAuthentication(context);
-        const accessToken = (_a = request.headers) === null || _a === void 0 ? void 0 : _a.authorization.split(' ')[1];
-        const userId = request.headers['x-user-id'] || '';
+        const accessToken = (_c = (_b = (_a = request === null || request === void 0 ? void 0 : request.headers) === null || _a === void 0 ? void 0 : _a.authorization) === null || _b === void 0 ? void 0 : _b.split(' ')[1]) !== null && _c !== void 0 ? _c : null;
+        const userId = (request === null || request === void 0 ? void 0 : request.headers['x-user-id']) || '';
         if (!accessToken) {
             throw new common_2.UnauthorizedException('unauthorized');
         }
