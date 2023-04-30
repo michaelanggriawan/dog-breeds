@@ -41,11 +41,24 @@ let AppService = AppService_1 = class AppService {
     async saveBreeds({ userId, selectedBreeds, }) {
         try {
             const docRef = this.breedsCollection.doc(userId);
-            let result = (await docRef.get()).data();
+            const breedAndImage = [];
+            const isExist = (await docRef.get()).exists;
+            let result = isExist
+                ? (await docRef.get()).data()
+                : { selectedBreeds: [] };
             for (const breed of selectedBreeds) {
-                if (result.selectedBreeds.includes(breed)) {
-                    throw new common_1.UnprocessableEntityException(`${breed} already added`);
+                for (const item of result.selectedBreeds) {
+                    if (item.breed === breed) {
+                        throw new common_1.UnprocessableEntityException(`${breed} already added`);
+                    }
                 }
+                const response = await (0, rxjs_1.lastValueFrom)(this.httpService
+                    .get(`${this.configService.get('DOG_CEO_URL')}breed/${breed}/images/random`)
+                    .pipe((0, rxjs_1.map)((response) => response.data), (0, rxjs_1.catchError)((err) => {
+                    this.logger.error(err);
+                    throw new common_1.HttpException(err.response.data, err.response.status);
+                })));
+                breedAndImage.push({ image: response.message, breed });
             }
             if (result.selectedBreeds.length + selectedBreeds.length > 3) {
                 throw new common_1.BadGatewayException('Selected breed cannot more than 3');
@@ -54,7 +67,7 @@ let AppService = AppService_1 = class AppService {
                 throw new common_1.UnprocessableEntityException('Selected breed already up to 3');
             }
             await docRef.set({
-                selectedBreeds: [...result.selectedBreeds, ...selectedBreeds],
+                selectedBreeds: [...result.selectedBreeds, ...breedAndImage],
             });
             result = (await docRef.get()).data();
             this.logger.info(`${userId} save breeds`);
@@ -68,10 +81,12 @@ let AppService = AppService_1 = class AppService {
     async deleteBreed({ userId, breed }) {
         const docRef = this.breedsCollection.doc(userId);
         let result = (await docRef.get()).data();
-        if (!result.selectedBreeds.includes(breed)) {
-            throw new common_1.NotFoundException(`${breed} doesn't exist`);
+        for (const [key, value] of Object.entries(result)) {
+            if (key === 'breed' && value === breed) {
+                throw new common_1.NotFoundException(`${breed} doesn't exist`);
+            }
         }
-        const selectedBreeds = result.selectedBreeds.filter((s) => s !== breed);
+        const selectedBreeds = result.selectedBreeds.filter((s) => s.breed !== breed);
         await docRef.set({
             selectedBreeds: selectedBreeds,
         });
@@ -80,21 +95,24 @@ let AppService = AppService_1 = class AppService {
     }
     async getRandomBreedImages({ userId }) {
         const docRef = this.breedsCollection.doc(userId);
+        const isExist = (await docRef.get()).exists;
+        if (!isExist)
+            throw new common_1.NotFoundException("You don't have selected breeds");
         const result = (await docRef.get()).data();
         const images = [];
         if (result.selectedBreeds.length < 0)
             throw new common_1.NotFoundException("You don't have selected breeds");
-        const totalImage = 3;
+        const maxImage = 3;
         for (const breed of result.selectedBreeds) {
             const response = await (0, rxjs_1.lastValueFrom)(this.httpService
-                .get(`${this.configService.get('DOG_CEO_URL')}breed/${breed}/images/random/${totalImage}`)
+                .get(`${this.configService.get('DOG_CEO_URL')}breed/${breed.breed}/images/random/${maxImage}`)
                 .pipe((0, rxjs_1.map)((response) => response.data), (0, rxjs_1.catchError)((err) => {
                 this.logger.error(err);
                 throw new common_1.HttpException(err.response.data, err.response.status);
             })));
             images.push({
                 images: response.message,
-                breed,
+                breed: breed.breed,
             });
         }
         return images;

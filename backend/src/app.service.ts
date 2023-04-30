@@ -51,13 +51,37 @@ export class AppService {
   }) {
     try {
       const docRef = this.breedsCollection.doc(userId);
+      const breedAndImage: Array<{ breed: string; image: string }> = [];
 
-      let result = (await docRef.get()).data();
+      const isExist = (await docRef.get()).exists;
+
+      let result = isExist
+        ? (await docRef.get()).data()
+        : { selectedBreeds: [] };
 
       for (const breed of selectedBreeds) {
-        if (result.selectedBreeds.includes(breed)) {
-          throw new UnprocessableEntityException(`${breed} already added`);
+        for (const item of result.selectedBreeds) {
+          if (item.breed === breed) {
+            throw new UnprocessableEntityException(`${breed} already added`);
+          }
         }
+        const response = await lastValueFrom(
+          this.httpService
+            .get(
+              `${this.configService.get<string>(
+                'DOG_CEO_URL',
+              )}breed/${breed}/images/random`,
+            )
+            .pipe(
+              map((response) => response.data),
+              catchError((err) => {
+                this.logger.error(err);
+                throw new HttpException(err.response.data, err.response.status);
+              }),
+            ),
+        );
+
+        breedAndImage.push({ image: response.message, breed });
       }
 
       if (result.selectedBreeds.length + selectedBreeds.length > 3) {
@@ -71,7 +95,7 @@ export class AppService {
       }
 
       await docRef.set({
-        selectedBreeds: [...result.selectedBreeds, ...selectedBreeds],
+        selectedBreeds: [...result.selectedBreeds, ...breedAndImage],
       });
 
       result = (await docRef.get()).data();
@@ -88,11 +112,15 @@ export class AppService {
     const docRef = this.breedsCollection.doc(userId);
     let result = (await docRef.get()).data();
 
-    if (!result.selectedBreeds.includes(breed)) {
-      throw new NotFoundException(`${breed} doesn't exist`);
+    for (const [key, value] of Object.entries(result)) {
+      if (key === 'breed' && value === breed) {
+        throw new NotFoundException(`${breed} doesn't exist`);
+      }
     }
 
-    const selectedBreeds = result.selectedBreeds.filter((s) => s !== breed);
+    const selectedBreeds = result.selectedBreeds.filter(
+      (s) => s.breed !== breed,
+    );
 
     await docRef.set({
       selectedBreeds: selectedBreeds,
@@ -105,20 +133,24 @@ export class AppService {
 
   async getRandomBreedImages({ userId }: { userId: string }) {
     const docRef = this.breedsCollection.doc(userId);
+    const isExist = (await docRef.get()).exists;
+
+    if (!isExist) throw new NotFoundException("You don't have selected breeds");
+
     const result = (await docRef.get()).data();
     const images: Array<{ images: Array<string>; breed: string }> = [];
 
     if (result.selectedBreeds.length < 0)
       throw new NotFoundException("You don't have selected breeds");
 
-    const totalImage = 3;
+    const maxImage = 3;
     for (const breed of result.selectedBreeds) {
       const response = await lastValueFrom(
         this.httpService
           .get(
-            `${this.configService.get<string>(
-              'DOG_CEO_URL',
-            )}breed/${breed}/images/random/${totalImage}`,
+            `${this.configService.get<string>('DOG_CEO_URL')}breed/${
+              breed.breed
+            }/images/random/${maxImage}`,
           )
           .pipe(
             map((response) => response.data),
@@ -130,7 +162,7 @@ export class AppService {
       );
       images.push({
         images: response.message,
-        breed,
+        breed: breed.breed,
       });
     }
     return images;
