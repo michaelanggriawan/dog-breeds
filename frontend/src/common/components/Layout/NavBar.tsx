@@ -25,7 +25,7 @@ export default function NavBar({ children }: { children: ReactNode }) {
 
   return (
     <Box>
-      <AppBar component="nav" color="primary" position="absolute">
+      <AppBar component="nav" color="primary" position="sticky">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Dog Breeds

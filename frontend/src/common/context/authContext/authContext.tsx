@@ -3,12 +3,17 @@ import {
   ReactNode,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from 'react';
 import { useRouter } from 'next/router';
 
-import { useSignInMutation, useSignUpMutation } from '@/features/auth/api';
+import {
+  useGetUserMutation,
+  useSignInMutation,
+  useSignUpMutation,
+} from '@/features/auth/auth';
 
 export interface AuthContextType {
   logIn: ({
@@ -55,6 +60,7 @@ const AuthContext = createContext<AuthContextType>({
 export function AuthContextProvider({ children }: { children: ReactNode }) {
   const [signIn, { isLoading: isLoadingSignIn }] = useSignInMutation();
   const [signUp, { isLoading: isLoadingSignUp }] = useSignUpMutation();
+  const [getUser] = useGetUserMutation();
   const [errorMessage, setErrorMessage] = useState('');
   const [errorSignUpMessage, setErrorSignUpMessage] = useState('');
   const router = useRouter();
@@ -110,10 +116,19 @@ export function AuthContextProvider({ children }: { children: ReactNode }) {
     [signUp],
   );
 
-  const logOut = () => {
+  const logOut = useCallback(() => {
     localStorage.clear();
     router.push('/login');
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        await getUser().unwrap();
+      } catch (err) {}
+    })();
+  }, [getUser]);
 
   const authContextProviderValue = useMemo(
     () => ({

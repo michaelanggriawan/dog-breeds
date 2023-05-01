@@ -1,9 +1,12 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
-import localApi from '@/common/services/local';
+import api from '@/common/services/local';
+
+import { userReducer } from './user/store';
 
 const reducer = combineReducers({
-  [localApi.reducerPath]: localApi.reducer,
+  [api.reducerPath]: api.reducer,
+  ...userReducer,
 });
 
 export default reducer;

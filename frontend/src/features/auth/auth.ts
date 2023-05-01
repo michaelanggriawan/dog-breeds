@@ -1,6 +1,6 @@
 import api from '@/common/services/local';
 
-export const nameApi = api.injectEndpoints({
+export const authApi = api.injectEndpoints({
   endpoints: (builder) => ({
     signIn: builder.mutation<
       ApiResponse<User>,
@@ -29,7 +29,17 @@ export const nameApi = api.injectEndpoints({
         },
       }),
     }),
+    getUser: builder.mutation<
+      ApiResponse<{ userId: string; username: string; email: string }>,
+      void
+    >({
+      query: () => ({
+        url: 'auth/user',
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
-export const { useSignInMutation, useSignUpMutation } = nameApi;
+export const { useSignInMutation, useSignUpMutation, useGetUserMutation } =
+  authApi;

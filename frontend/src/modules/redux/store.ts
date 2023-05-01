@@ -18,10 +18,6 @@ export const configureAppStore = (preloadedState?: TypedObject) => {
     preloadedState,
   });
 
-  if (isDev && module.hot) {
-    module.hot.accept('./reducer', () => store.replaceReducer(reducer));
-  }
-
   return store;
 };
 
