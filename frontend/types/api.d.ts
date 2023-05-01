@@ -10,5 +10,5 @@ declare type User = {
   username: string;
   email: string;
   expToken: number;
-  accessToken: string;
+  token: string;
 };

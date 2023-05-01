@@ -1,21 +1,11 @@
-import {
-  Box,
-  Container,
-  Grid,
-  Link,
-  Skeleton,
-  Typography,
-} from '@mui/material';
+import { Box, Container, Grid, Link, Typography } from '@mui/material';
 import Head from 'next/head';
 import Image from 'next/image';
 
 import RouteLink from '@/common/components/Atoms/RouteLink/RouteLink';
-import { useGetNameQuery } from '@/features/auth/api';
 import vercelLogo from '@/public/vercel.svg';
 
 export default function Home() {
-  const { data, isSuccess, fulfilledTimeStamp } = useGetNameQuery();
-
   return (
     <>
       <Head>
@@ -30,17 +20,6 @@ export default function Home() {
           <Typography fontWeight="semibold" fontSize="lg">
             Go to <RouteLink href="/new-page">New Page</RouteLink>
           </Typography>
-          {isSuccess ? (
-            data &&
-            fulfilledTimeStamp && (
-              <Typography variant="body1">
-                Local API /hello processed {data.data.name} within
-                {fulfilledTimeStamp - data.data.timestamp} ms
-              </Typography>
-            )
-          ) : (
-            <Skeleton />
-          )}
 
           <Typography mt="8">
             Get started by editing src/pages/index.tsx
