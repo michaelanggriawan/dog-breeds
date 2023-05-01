@@ -23,4 +23,13 @@ export declare class UsersService {
         password: string;
         email: string;
     }>;
+    findById({ userId }: {
+        userId: string;
+    }): Promise<{
+        userId: string;
+        username: string;
+        email: string;
+        password: string;
+        createAt: Timestamp;
+    }>;
 }

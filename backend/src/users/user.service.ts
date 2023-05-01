@@ -52,4 +52,11 @@ export class UsersService {
 
     return result;
   }
+
+  async findById({ userId }: { userId: string }) {
+    const docRef = this.usersCollection.doc(userId);
+    const result = (await docRef.get()).data();
+
+    return { ...result, userId };
+  }
 }

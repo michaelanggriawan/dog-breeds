@@ -21,6 +21,7 @@ const create_user_dto_1 = require("./dtos/create-user.dto");
 const sign_user_dto_1 = require("./dtos/sign-user.dto");
 const swagger_1 = require("@nestjs/swagger");
 const swagger_response_1 = require("../../swagger/swagger.response");
+const jwt_auth_guard_1 = require("../../guards/jwt-auth.guard");
 let UserController = class UserController {
     constructor(authService) {
         this.authService = authService;
@@ -33,6 +34,9 @@ let UserController = class UserController {
         const { email, username, password } = body;
         const user = await this.authService.signUp({ email, username, password });
         return user;
+    }
+    getUser(headers) {
+        return this.authService.getUser({ userId: headers['x-user-id'] });
     }
 };
 __decorate([
@@ -57,6 +61,20 @@ __decorate([
     __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "createUser", null);
+__decorate([
+    (0, swagger_1.ApiInternalServerErrorResponse)({ type: swagger_response_1.InternalServerErrorResponse }),
+    (0, swagger_1.ApiUnauthorizedResponse)({ type: swagger_response_1.UnauthorizedResponse }),
+    (0, swagger_1.ApiBadRequestResponse)({ type: swagger_response_1.BadRequestResponse }),
+    (0, swagger_1.ApiOkResponse)({ type: swagger_response_1.UserSignInResponse }),
+    (0, swagger_1.ApiHeaders)([{ name: 'X-User-Id' }]),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, common_1.Get)('/user'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, (0, common_1.Headers)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "getUser", null);
 UserController = __decorate([
     (0, common_1.Controller)({
         path: 'auth',

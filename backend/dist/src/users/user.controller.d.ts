@@ -21,4 +21,13 @@ export declare class UserController {
         password: string;
         createAt: FirebaseFirestore.Timestamp;
     }>;
+    getUser(headers: {
+        'x-user-id': string;
+    }): Promise<{
+        userId: string;
+        username: string;
+        email: string;
+        password: string;
+        createAt: FirebaseFirestore.Timestamp;
+    }>;
 }

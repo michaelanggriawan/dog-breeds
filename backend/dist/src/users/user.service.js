@@ -41,6 +41,11 @@ let UsersService = class UsersService {
         });
         return result;
     }
+    async findById({ userId }) {
+        const docRef = this.usersCollection.doc(userId);
+        const result = (await docRef.get()).data();
+        return Object.assign(Object.assign({}, result), { userId });
+    }
 };
 UsersService = __decorate([
     (0, common_1.Injectable)(),

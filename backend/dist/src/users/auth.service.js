@@ -70,6 +70,15 @@ let AuthService = AuthService_1 = class AuthService {
             throw error;
         }
     }
+    async getUser({ userId }) {
+        try {
+            const result = await this.usersService.findById({ userId });
+            return result;
+        }
+        catch (error) {
+            this.logger.error(error);
+        }
+    }
     async createToken({ userId, email, }) {
         const algorithm = 'RS256';
         const pkcs8 = keys.private_key;

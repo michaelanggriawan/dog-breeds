@@ -25,5 +25,14 @@ export declare class AuthService {
         password: string;
         email: string;
     }>;
+    getUser({ userId }: {
+        userId: string;
+    }): Promise<{
+        userId: string;
+        username: string;
+        email: string;
+        password: string;
+        createAt: FirebaseFirestore.Timestamp;
+    }>;
     private createToken;
 }

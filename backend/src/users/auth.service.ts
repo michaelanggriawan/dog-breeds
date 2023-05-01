@@ -86,6 +86,16 @@ export class AuthService {
     }
   }
 
+  async getUser({ userId }: { userId: string }) {
+    try {
+      const result = await this.usersService.findById({ userId });
+
+      return result;
+    } catch (error) {
+      this.logger.error(error);
+    }
+  }
+
   private async createToken({
     userId,
     email,
