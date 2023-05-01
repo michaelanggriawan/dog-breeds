@@ -1,14 +1,7 @@
 import { useState } from 'react';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import {
-  Avatar,
-  Box,
-  Button,
-  Checkbox,
-  FormControlLabel,
-  TextField,
-  Typography,
-} from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { Avatar, Box, TextField, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import Link from 'next/link';
 
@@ -19,7 +12,7 @@ export default function LoginPage() {
   const btnstyle = { margin: '8px 0' };
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { logIn, errorMessage } = UserAuth();
+  const { logIn, errorMessage, isLoadingSignIn } = UserAuth();
   return (
     <Box mt="5%" paddingLeft="20px" paddingRight="20px">
       <Box justifyContent="center" alignItems="center" display="flex">
@@ -32,6 +25,7 @@ export default function LoginPage() {
       </Box>
       <Box mt="20px">
         <TextField
+          error={Boolean(errorMessage)}
           label="Email"
           placeholder="Enter email"
           variant="outlined"
@@ -39,10 +33,12 @@ export default function LoginPage() {
           required
           type="email"
           onChange={(e) => setEmail(e.target.value)}
+          value={email}
         />
       </Box>
       <Box mt="20px">
         <TextField
+          error={Boolean(errorMessage)}
           label="Password"
           placeholder="Enter password"
           type="password"
@@ -50,14 +46,13 @@ export default function LoginPage() {
           fullWidth
           required
           onChange={(e) => setPassword(e.target.value)}
+          value={password}
         />
       </Box>
-      <FormControlLabel
-        control={<Checkbox name="checkedB" color="primary" />}
-        label="Remember me"
-      />
+      {errorMessage && <Typography color="error">{errorMessage}</Typography>}
       <Box mt="20px">
-        <Button
+        <LoadingButton
+          loading={isLoadingSignIn}
           type="submit"
           color="primary"
           variant="contained"
@@ -66,7 +61,7 @@ export default function LoginPage() {
           onClick={() => logIn({ email, password })}
         >
           Sign in
-        </Button>
+        </LoadingButton>
       </Box>
       <Typography textAlign="center">
         Dont have an account ?<Link href="/register">Sign Up</Link>

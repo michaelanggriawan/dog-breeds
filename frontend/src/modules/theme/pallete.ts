@@ -55,6 +55,15 @@ const BLUE = {
   100: '#F6F8F9',
 };
 
+const ERROR = {
+  lighter: '#FFE9D5',
+  light: '#FFAC82',
+  main: '#FF5630',
+  dark: '#B71D18',
+  darker: '#7A0916',
+  contrastText: '#fff',
+};
+
 const COMMON = {
   common: { black: '#000', white: '#fff' },
   primary: PRIMARY,
@@ -62,6 +71,7 @@ const COMMON = {
   green: GREEN,
   gray: GREY,
   white: WHITE,
+  error: ERROR,
   divider: alpha(GREY[500], 0.24),
   action: {
     hover: alpha(GREY[500], 0.08),
