@@ -110,7 +110,10 @@ export function AuthContextProvider({ children }: { children: ReactNode }) {
     [signUp],
   );
 
-  const logOut = () => localStorage.clear();
+  const logOut = () => {
+    localStorage.clear();
+    router.push('/login');
+  };
 
   const authContextProviderValue = useMemo(
     () => ({
@@ -128,6 +131,7 @@ export function AuthContextProvider({ children }: { children: ReactNode }) {
       isLoadingSignIn,
       isLoadingSignUp,
       logIn,
+      logOut,
       register,
     ],
   );

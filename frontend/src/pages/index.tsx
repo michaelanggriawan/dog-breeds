@@ -2,7 +2,7 @@ import { Box, Container, Grid, Link, Typography } from '@mui/material';
 import Head from 'next/head';
 import Image from 'next/image';
 
-import RouteLink from '@/common/components/Atoms/RouteLink/RouteLink';
+import NavBar from '@/common/components/Layout/NavBar';
 import vercelLogo from '@/public/vercel.svg';
 
 export default function Home() {
@@ -16,9 +16,6 @@ export default function Home() {
         <Box py="8" flexDirection="column" alignItems="center" flex={1}>
           <Typography variant="h1">
             Welcome to <Link href="https://nextjs.org">Next.js!</Link>
-          </Typography>
-          <Typography fontWeight="semibold" fontSize="lg">
-            Go to <RouteLink href="/new-page">New Page</RouteLink>
           </Typography>
 
           <Typography mt="8">
@@ -81,3 +78,5 @@ export default function Home() {
     </>
   );
 }
+
+Home.getLayout = (page: React.ReactElement) => <NavBar>{page}</NavBar>;

@@ -1,7 +1,8 @@
 import { ReactNode, useEffect } from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
-import { CacheProvider } from '@emotion/react';
+import { CacheProvider, EmotionCache } from '@emotion/react';
 import { Box } from '@mui/material';
+import { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 
@@ -15,6 +16,15 @@ if (process.env.NEXT_PUBLIC_API_MOCKING === 'true') {
 }
 
 const clientSideEmotionCache = createEmotionCache();
+
+type NextPageWithLayout = NextPage & {
+  getLayout?: (page: React.ReactElement) => React.ReactNode;
+};
+
+interface MyAppProps extends AppProps {
+  emotionCache?: EmotionCache;
+  Component: NextPageWithLayout;
+}
 
 function LoginGuard({ children }: { children: ReactNode }) {
   const router = useRouter();
@@ -39,15 +49,14 @@ export default function App({
   Component,
   pageProps,
   emoticonCache = clientSideEmotionCache,
-}: AppProps & { emoticonCache: typeof clientSideEmotionCache }) {
+}: MyAppProps & { emoticonCache: typeof clientSideEmotionCache }) {
+  const getLayout = Component.getLayout ?? ((page) => page);
   return (
     <CacheProvider value={emoticonCache}>
       <ReduxProvider store={store}>
         <ThemeProvider>
           <AuthContextProvider>
-            <LoginGuard>
-              <Component {...pageProps} />
-            </LoginGuard>
+            <LoginGuard>{getLayout(<Component {...pageProps} />)}</LoginGuard>
           </AuthContextProvider>
         </ThemeProvider>
       </ReduxProvider>
