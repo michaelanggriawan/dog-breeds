@@ -1,11 +1,10 @@
 import { Provider as ReduxProvider } from 'react-redux';
 import { CacheProvider } from '@emotion/react';
-import { ThemeProvider } from '@mui/material';
 import type { AppProps } from 'next/app';
 
 import createEmotionCache from '@/common/utils/createEmoticonCache';
 import store from '@/modules/redux/store';
-import theme from '@/modules/theme';
+import ThemeProvider from '@/modules/theme';
 
 if (process.env.NEXT_PUBLIC_API_MOCKING === 'true') {
   import('../../mocks');
@@ -21,7 +20,7 @@ export default function App({
   return (
     <CacheProvider value={emoticonCache}>
       <ReduxProvider store={store}>
-        <ThemeProvider theme={theme}>
+        <ThemeProvider>
           <Component {...pageProps} />
         </ThemeProvider>
       </ReduxProvider>

@@ -8,6 +8,9 @@ const config = {
   eslint: {
     dirs: ['src', '__tests__', 'mocks', '__mocks__'],
   },
+  env: {
+    API_URL: 'https://dog-breeds-production-325d.up.railway.app/v1/',
+  },
 };
 
 module.exports = (phase) => {

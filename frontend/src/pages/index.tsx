@@ -7,10 +7,10 @@ import {
   Typography,
 } from '@mui/material';
 import Head from 'next/head';
-
 import Image from 'next/image';
+
 import RouteLink from '@/common/components/Atoms/RouteLink/RouteLink';
-import { useGetNameQuery } from '@/features/name/api';
+import { useGetNameQuery } from '@/features/auth/api';
 import vercelLogo from '@/public/vercel.svg';
 
 export default function Home() {

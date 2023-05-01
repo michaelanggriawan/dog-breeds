@@ -19,6 +19,7 @@
       "@/public/*": ["public/*"],
       "test-utils": ["test-utils"]
     },
+    "typeRoots": ["./types"],
     "incremental": true
   },
   "include": ["**/*.ts", "**/*.tsx"],
