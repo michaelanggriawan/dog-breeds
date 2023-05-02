@@ -130,6 +130,16 @@ export function AuthContextProvider({ children }: { children: ReactNode }) {
     })();
   }, [getUser]);
 
+  useEffect(() => {
+    // if token expired then log out the user
+    const expToken = Number(localStorage.getItem('expToken'));
+    if (expToken * 1000 < Date.now()) {
+      localStorage.clear();
+      router.push('/login');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const authContextProviderValue = useMemo(
     () => ({
       logIn,
