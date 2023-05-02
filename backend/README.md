@@ -9,9 +9,9 @@ Shipped with following developer tools:
 3. [Rxjs](https://rxjs.dev/)
 4. [Pino Logger](https://github.com/pinojs/pino)
 5. [Swagger](https://swagger.io/)
-6. [Class Validator][https://www.npmjs.com/package/class-validator]
-7. [Class Transformer][https://www.npmjs.com/package/class-transformer]
-8. [Firebase Functions][https://firebase.google.com/docs/functions]
+6. [Class Validator](https://www.npmjs.com/package/class-validator)
+7. [Class Transformer](https://www.npmjs.com/package/class-transformer)
+8. [Firebase Functions](https://firebase.google.com/docs/functions)
 ### Development dependencies
 
 1. [TypeScript](https://www.typescriptlang.org/)
