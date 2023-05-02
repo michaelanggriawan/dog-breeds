@@ -29,6 +29,19 @@ export const breedsApi = api.injectEndpoints({
       }),
       providesTags: ['GetSelectedBreeds'],
     }),
+    removeSelectedBreed: builder.mutation<
+      ApiResponse<{ selectedBreeds: Array<{ breed: string; image: string }> }>,
+      { breed: string }
+    >({
+      query: ({ breed }) => ({
+        url: 'breeds/save',
+        method: 'DELETE',
+        body: {
+          breed,
+        },
+      }),
+      invalidatesTags: ['GetSelectedBreeds'],
+    }),
   }),
 });
 
@@ -36,4 +49,5 @@ export const {
   useGetBreedsListQuery,
   useSelectBreedMutation,
   useGetSelectedBreedQuery,
+  useRemoveSelectedBreedMutation,
 } = breedsApi;

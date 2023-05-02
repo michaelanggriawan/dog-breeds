@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import {
   Box,
+  Button,
   FormControl,
   InputLabel,
   MenuItem,
@@ -10,6 +11,7 @@ import {
   Typography,
 } from '@mui/material';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
 import SelectedBreedCard from '@/common/components/Breeds/SelectedBreedCard';
 import NavBar from '@/common/components/Layout/NavBar';
@@ -27,6 +29,7 @@ export default function Home() {
   const { data: breeds } = data || {};
   const [selectBreed] = useSelectBreedMutation();
   const { data: { data: selectedBreeds } = {} } = useGetSelectedBreedQuery();
+  const router = useRouter();
   const handleChange = async (e: SelectChangeEvent) => {
     try {
       setBreed(e.target.value);
@@ -66,6 +69,17 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Box m="5%">
+        <Box display="flex" justifyContent="center" alignItems="center">
+          <Button onClick={() => router.push('/')}>
+            <Typography variant="h5">Select Dog Breeds</Typography>
+          </Button>
+          <Button onClick={() => router.push('/view_feed')}>
+            <Typography variant="h5">View Feed</Typography>
+          </Button>
+        </Box>
+        <Typography textAlign="center" variant="h5" mb="2%" mt="1%">
+          Select dog breeds (Up to 3 breeds)
+        </Typography>
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Breeds</InputLabel>
           <Select
@@ -85,11 +99,19 @@ export default function Home() {
               })}
           </Select>
         </FormControl>
-        <Box mt="3%" display="flex" justifyContent="space-between">
+        <Box
+          mt="3%"
+          display="flex"
+          justifyContent={{ md: 'space-between', sm: 'center', xs: 'center' }}
+          alignItems="center"
+          flexDirection={{ md: 'row', sm: 'column', xs: 'column' }}
+        >
           {selectedBreeds?.selectedBreeds &&
             selectedBreeds.selectedBreeds.map((item) => {
               return (
-                <SelectedBreedCard image={item.image} breed={item.breed} />
+                <Box mt={{ md: '0%', sm: '5%', xs: '5%' }}>
+                  <SelectedBreedCard image={item.image} breed={item.breed} />
+                </Box>
               );
             })}
         </Box>
