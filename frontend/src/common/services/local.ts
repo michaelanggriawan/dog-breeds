@@ -16,7 +16,7 @@ const api = createApi({
       return headers;
     },
   }),
-  tagTypes: ['GetSelectedBreeds'],
+  tagTypes: ['GetSelectedBreeds', 'GetRandomImages'],
   endpoints: () => ({}),
 });
 

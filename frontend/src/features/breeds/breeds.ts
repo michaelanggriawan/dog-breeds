@@ -17,7 +17,7 @@ export const breedsApi = api.injectEndpoints({
         method: 'POST',
         body: { selectedBreeds },
       }),
-      invalidatesTags: ['GetSelectedBreeds'],
+      invalidatesTags: ['GetSelectedBreeds', 'GetRandomImages'],
     }),
     getSelectedBreed: builder.query<
       ApiResponse<{ selectedBreeds: Array<{ breed: string; image: string }> }>,
@@ -40,7 +40,22 @@ export const breedsApi = api.injectEndpoints({
           breed,
         },
       }),
-      invalidatesTags: ['GetSelectedBreeds'],
+      invalidatesTags: ['GetSelectedBreeds', 'GetRandomImages'],
+    }),
+    getRandomImage: builder.query<
+      ApiResponse<
+        Array<{
+          images: Array<string>;
+          breed: string;
+        }>
+      >,
+      void
+    >({
+      query: () => ({
+        url: 'breeds/images',
+        method: 'GET',
+      }),
+      providesTags: ['GetRandomImages'],
     }),
   }),
 });
@@ -50,4 +65,5 @@ export const {
   useSelectBreedMutation,
   useGetSelectedBreedQuery,
   useRemoveSelectedBreedMutation,
+  useGetRandomImageQuery,
 } = breedsApi;

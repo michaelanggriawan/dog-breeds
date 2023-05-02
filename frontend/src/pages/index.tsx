@@ -10,6 +10,7 @@ import {
   SelectChangeEvent,
   Typography,
 } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
@@ -25,7 +26,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export default function Home() {
   const [breed, setBreed] = useState('');
-  const { data } = useGetBreedsListQuery();
+  const { data, isFetching } = useGetBreedsListQuery();
   const { data: breeds } = data || {};
   const [selectBreed] = useSelectBreedMutation();
   const { data: { data: selectedBreeds } = {} } = useGetSelectedBreedQuery();
@@ -61,6 +62,13 @@ export default function Home() {
       });
     }
   };
+
+  if (isFetching)
+    return (
+      <Box mt="5%" display="flex" justifyContent="center" alignItems="center">
+        <CircularProgress />
+      </Box>
+    );
 
   return (
     <>
@@ -109,7 +117,7 @@ export default function Home() {
           {selectedBreeds?.selectedBreeds &&
             selectedBreeds.selectedBreeds.map((item) => {
               return (
-                <Box mt={{ md: '0%', sm: '5%', xs: '5%' }}>
+                <Box mt={{ md: '0%', sm: '5%', xs: '5%' }} key={item.breed}>
                   <SelectedBreedCard image={item.image} breed={item.breed} />
                 </Box>
               );
