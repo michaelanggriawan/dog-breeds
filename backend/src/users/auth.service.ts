@@ -118,7 +118,7 @@ export class AuthService {
       .setIssuer(keys.client_email)
       .setSubject(keys.client_email)
       .setIssuedAt()
-      .setExpirationTime('1d')
+      .setExpirationTime('1h')
       .sign(ecPrivateKey);
 
     const response = jose.decodeJwt(jwt);
