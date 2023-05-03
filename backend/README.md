@@ -12,6 +12,7 @@ Shipped with following developer tools:
 6. [Class Validator](https://www.npmjs.com/package/class-validator)
 7. [Class Transformer](https://www.npmjs.com/package/class-transformer)
 8. [Firebase Functions](https://firebase.google.com/docs/functions)
+9. [JWT](https://www.npmjs.com/package/jose)
 ### Development dependencies
 
 1. [TypeScript](https://www.typescriptlang.org/)
