@@ -9,6 +9,8 @@ import {
 } from 'react';
 import { useRouter } from 'next/router';
 
+import useAppDispatch from '@/common/hooks/useAppDispatch';
+import api from '@/common/services/local';
 import {
   useGetUserMutation,
   useSignInMutation,
@@ -64,6 +66,7 @@ export function AuthContextProvider({ children }: { children: ReactNode }) {
   const [errorMessage, setErrorMessage] = useState('');
   const [errorSignUpMessage, setErrorSignUpMessage] = useState('');
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const logIn = useCallback(
     async ({ email, password }: { email: string; password: string }) => {
       try {
@@ -119,6 +122,7 @@ export function AuthContextProvider({ children }: { children: ReactNode }) {
   const logOut = useCallback(() => {
     localStorage.clear();
     router.push('/login');
+    dispatch(api.util.resetApiState());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

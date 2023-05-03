@@ -17,14 +17,19 @@ const slice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addMatcher(
-      authApi.endpoints.getUser.matchFulfilled,
-      (state, action) => {
+    builder
+      .addMatcher(authApi.endpoints.getUser.matchFulfilled, (state, action) => {
         state.userInfo = {
           ...action.payload.data,
         };
-      },
-    );
+      })
+      .addMatcher(authApi.endpoints.signUp.matchFulfilled, (state, action) => {
+        state.userInfo = {
+          username: action.payload.data.username,
+          userId: action.payload.data.userId,
+          email: action.payload.data.email,
+        };
+      });
   },
 });
 
