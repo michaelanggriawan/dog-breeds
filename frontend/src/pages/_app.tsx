@@ -11,10 +11,6 @@ import createEmotionCache from '@/common/utils/createEmoticonCache';
 import store from '@/modules/redux/store';
 import ThemeProvider from '@/modules/theme';
 
-if (process.env.NEXT_PUBLIC_API_MOCKING === 'true') {
-  import('../../mocks');
-}
-
 const clientSideEmotionCache = createEmotionCache();
 
 type NextPageWithLayout = NextPage & {
