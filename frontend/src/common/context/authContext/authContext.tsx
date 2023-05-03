@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   createContext,
   ReactNode,
@@ -130,6 +131,7 @@ export function AuthContextProvider({ children }: { children: ReactNode }) {
     (async () => {
       try {
         await getUser().unwrap();
+        // eslint-disable-next-line no-empty
       } catch (err) {}
     })();
   }, [getUser]);

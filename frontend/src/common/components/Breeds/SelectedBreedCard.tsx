@@ -40,6 +40,7 @@ export default function SelectedBreedCard({
                   progress: undefined,
                   theme: 'colored',
                 });
+                // eslint-disable-next-line no-empty
               } catch (err) {}
             }}
           >
